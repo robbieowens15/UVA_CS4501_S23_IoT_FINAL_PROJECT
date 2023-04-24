@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/")
-def index():
-    return "Hello World"
+@app.route("/webhook", methods=['POST'])
+def receiver():
+    print("Data: "+request.json)
+    return "Received"

@@ -1,2 +1,26 @@
 web/pycache/
 web/venv/
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+web/frontend/node_modules
+web/frontend/.pnp
+web/frontend.pnp.js
+
+# testing
+web/frontend/coverage
+
+# production
+web/frontend/build
+
+# misc
+web/frontend.DS_Store
+web/frontend.env.local
+web/frontend.env.development.local
+web/frontend.env.test.local
+web/frontend.env.production.local
+
+web/frontend/npm-debug.log*
+web/frontend/yarn-debug.log*
+web/frontend/yarn-error.log*
