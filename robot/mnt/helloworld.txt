@@ -1,0 +1,6 @@
+You should be able to read this file both from:
+
+1. The Host OS
+2. Within the Docker Constainer shell
+
+If so, congrats, this conatiner was setup correctly!
