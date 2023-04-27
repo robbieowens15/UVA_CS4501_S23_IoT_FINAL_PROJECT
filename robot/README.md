@@ -61,22 +61,15 @@ following: http://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.htm
 - I followed this tutorial through and verified setup in the pub-sub at bottom of the page
 Note, by following this I have warning about two ROS installs
 
-```
-sudo apt update
-
-W: Target Packages (main/binary-amd64/Packages) is configured multiple times in /etc/apt/sources.list.d/ros2-latest.list:1 and /etc/apt/sources.list.d/ros2.list:1
-W: Target Packages (main/binary-all/Packages) is configured multiple times in /etc/apt/sources.list.d/ros2-latest.list:1 and /etc/apt/sources.list.d/ros2.list:1
-W: Target Packages (main/binary-amd64/Packages) is configured multiple times in /etc/apt/sources.list.d/ros2-latest.list:1 and /etc/apt/sources.list.d/ros2.list:1
-W: Target Packages (main/binary-all/Packages) is configured multiple times in /etc/apt/sources.list.d/ros2-latest.list:1 and /etc/apt/sources.list.d/ros2.list:1
-W: Target Packages (main/binary-amd64/Packages) is configured multiple times in /etc/apt/sources.list.d/ros2-latest.list:1 and /etc/apt/sources.list.d/ros2.list:1
-W: Target Packages (main/binary-all/Packages) is configured multiple times in /etc/apt/sources.list.d/ros2-latest.list:1 and /etc/apt/sources.list.d/ros2.list:1
-```
-
 Now after this setup is it possible to source correctly via:
 `source /opt/ros/humble/setup.bash`
 
 ### Building the workspace
 following this tutorial: http://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.html
+
+# File structure organization
+- `mnt/project_ws` is for the code to simulate service calls to the robot lawn mower about battery levels and such
+- `mnt/ros2_sandbox_ws` is for running doing the ROS tutorials linked below
 
 ## Creating the Simulated Mover Robot
 
@@ -85,7 +78,7 @@ Following this guide to create simple Python pub/sub: http://docs.ros.org/en/hum
 And this guide on service calls: http://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html
 
 Setting up the ROS project to receive system parameters
-
+http://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html
 
 
 ## todo
@@ -99,15 +92,19 @@ https://github.com/uts-magic-lab/rosduct
 
 Build the project:
 ```
-cd /root/mnt/ros2_ws
+source /opt/ros/humble/setup.bash
+cd /root/mnt/project_ws
 colcon build --packages-select python_parameters
-. install/setup.bash
+source install/setup.bash
 ```
 
-Run the battery count down: 
-`ros2 launch python_parameters python_parameters_launch.py battery_time:="10"` 10 is 10s til battery depletes
-or `ros2 launch python_parameters python_parameters_launch.py` battery_time default is 100s
+Run the battery count down: *Bug! Functionality to modify the count down is broken*
+`ros2 launch battery_monitor battery_monitor_launch.py battery_time:="10"` 10 is 10s til battery depletes
+or `ros2 launch battery_monitor battery_monitor_launch.py` battery_time default is 100s
 
+## Troubleshoot
+
+Error ROS2 not found: `source /opt/ros/humble/setup.bash`
 
 ## Cleanup
 '''

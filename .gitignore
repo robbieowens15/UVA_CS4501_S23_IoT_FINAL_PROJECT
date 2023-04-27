@@ -27,8 +27,10 @@ web/.env
 
 # Visual Studio Code
 .vscode/
+*.DS_Store
 
 # Below is for ROS
+*.ros
 devel/
 logs/
 build/
