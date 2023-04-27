@@ -2,25 +2,43 @@ import rclpy
 import rclpy.node
 
 class MinimalParam(rclpy.node.Node):
+    battery_percentage = 100.0
+    battery_tick_rate = 1.0
+
     def __init__(self):
         super().__init__('minimal_param_node')
 
-        self.declare_parameter('my_parameter', 'world')
+        from rcl_interfaces.msg import ParameterDescriptor
+        battery_time_descriptor = ParameterDescriptor(description='Number of seconds for battery to deplete')
 
-        self.timer = self.create_timer(1, self.timer_callback)
+        self.declare_parameter('battery_time', '100', battery_time_descriptor)
+
+        battery_time_input = None
+        try:
+            battery_time_input = int(self.get_parameter('battery_time').get_parameter_value().string_value)
+            self.get_logger().info(f'input: {battery_time_input}')
+        except ValueError:
+            self.get_logger().error('The parameter value for battery_time: "%s" is not an integer.' % self.get_parameter('battery_time').get_parameter_value().string_value)
+
+        if battery_time_input is None: 
+            #use default settings 
+            self.battery_percentage = 100.0
+            self.battery_tick_rate = 1.0
+        else:
+            self.battery_percentage = 100.0
+            self.battery_tick_rate = 100.0 / battery_time_input
+
+        self.get_logger().info(f'tick rate: {self.battery_tick_rate}')
+
+        self.get_logger().info(f'Battery Level: { str(self.battery_percentage)}%')
+        self.timer = self.create_timer(1, self.timer_callback) #timer callback executes every second
 
     def timer_callback(self):
-        my_param = self.get_parameter('my_parameter').get_parameter_value().string_value
+        self.battery_percentage = self.battery_percentage - self.battery_tick_rate
+        if self.battery_percentage <= 0.01:
+            self.battery_percentage = 0.0
 
-        self.get_logger().info('Hello %s!' % my_param)
-
-        my_new_param = rclpy.parameter.Parameter(
-            'my_parameter',
-            rclpy.Parameter.Type.STRING,
-             my_param
-        )
-        all_new_parameters = [my_new_param]
-        self.set_parameters(all_new_parameters)
+        self.get_logger().info(f'Battery Level: { str(self.battery_percentage)}%')
 
 def main():
     rclpy.init()

@@ -1,6 +1,8 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
+import sys
+
 def generate_launch_description():
     return LaunchDescription([
         Node(
@@ -10,7 +12,7 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[
-                {'my_parameter': 'earth'}
+                {'battery_time': '100'}
             ]
         )
     ])

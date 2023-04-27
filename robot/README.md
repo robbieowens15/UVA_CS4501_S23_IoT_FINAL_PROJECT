@@ -95,6 +95,19 @@ http://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Custom-ROS2-In
 possible solution to communicating through docker container
 https://github.com/uts-magic-lab/rosduct
 
+# Running the demo
+
+Build the project:
+```
+cd /root/mnt/ros2_ws
+colcon build --packages-select python_parameters
+. install/setup.bash
+```
+
+Run the battery count down: 
+`ros2 launch python_parameters python_parameters_launch.py battery_time:="10"` 10 is 10s til battery depletes
+or `ros2 launch python_parameters python_parameters_launch.py` battery_time default is 100s
+
 
 ## Cleanup
 '''

@@ -1,7 +1,15 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
+import sys
+
 def generate_launch_description():
+    for arg in sys.argv:
+        if arg.startswith("battery_time:="):
+            value = arg.split(":=")[1]
+        else:
+            value = '100'
+
     return LaunchDescription([
         Node(
             package='python_parameters',
@@ -10,7 +18,7 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[
-                {'my_parameter': 'earth'}
+                {'battery_time': value}
             ]
         )
     ])
