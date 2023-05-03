@@ -1,6 +1,5 @@
-web/__pycache__/
 web/venv/
-
+web\__pycache__
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -24,3 +23,4 @@ web/frontend.env.production.local
 web/frontend/npm-debug.log*
 web/frontend/yarn-debug.log*
 web/frontend/yarn-error.log*
+web/.env

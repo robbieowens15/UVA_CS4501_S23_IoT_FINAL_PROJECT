@@ -6,13 +6,18 @@ import json
 import base64
 import math
 import struct
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 app = Flask(__name__)
 
+print(os.environ)
 
 app.config['MQTT_BROKER_URL'] = 'nam1.cloud.thethings.network'
 app.config['MQTT_BROKER_PORT'] = 1883
 app.config['MQTT_USERNAME'] = 'group11app@ttn'
-app.config['MQTT_PASSWORD'] = 'NNSXS.IYW7VFU4FDUSCDDL4A5HHCGPMEY6N22B6Z44SGI.SUJKEKTTIPXNM45WVYMDCTOMX7PNJPLJCKEX2YC5WPTCNRFPBD4A'
+app.config['MQTT_PASSWORD'] = os.environ.get('MQTT_PASS')
 app.config['MQTT_TLS_ENABLED'] = False
 topic = 'v3/+/devices/+/up'
 
