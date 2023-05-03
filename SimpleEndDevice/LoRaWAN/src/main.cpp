@@ -66,9 +66,8 @@ uint8_t appPort = 1;
 */
 uint8_t confirmedNbTrials = 8;
 
-uint8_t tempFirst = 0;
-uint8_t tempSecond = 0;
-uint8_t battery_percent = 100;
+
+static uint8_t battery_percent = 100;
 
 /* Prepares the payload of the frame */
 static void prepareTxFrame( uint8_t port )
@@ -106,22 +105,11 @@ static void prepareTxFrame( uint8_t port )
 	Serial.println(speed);
 }
 
-static void getTemp(){
-	float temp = 0;
-	temp_sensor_read_celsius(&temp);
-	Serial.println(temp);
-	tempFirst = (uint8_t)temp;
-	tempSecond = (uint8_t)((temp - tempFirst) * 100);
-	Serial.println(tempFirst);
-	Serial.println(tempSecond);
-	
-}
 
 RTC_DATA_ATTR bool firstrun = true;
 
 void setup() {
-	Serial.begin(115200);
-  initTempSensor();
+  Serial.begin(115200);
   Mcu.begin();
   if(firstrun)
   {
@@ -156,7 +144,6 @@ void loop()
 		case DEVICE_STATE_SEND:
 		{
       		LoRaWAN.displaySending();
-			getTemp();
 			prepareTxFrame( appPort );
 			LoRaWAN.send();
 			deviceState = DEVICE_STATE_CYCLE;
