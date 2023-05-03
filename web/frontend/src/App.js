@@ -24,7 +24,9 @@ function App() {
 
     socket.on("ttn_data",(new_marker) => {
       console.log(new_marker)
-      setMarkers(markers => [...markers, new_marker])
+      if(new_marker.lat != 0 && new_marker.lng != 0){
+        setMarkers(markers => [...markers, new_marker])
+      }
 
     })
 
@@ -61,7 +63,7 @@ function App() {
                     </MarkerF>
                     <CircleF
                       visible={(i == markers.length-1)}
-                      radius={2*marker.battery}
+                      radius={200}
                       fillColor={"#ff0000"}
                       fillOpacity={0.35}
                       center={{lat:marker.lat, lng:marker.lng}}
