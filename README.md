@@ -1,18 +1,29 @@
 # Final Project for Internet of Things (IoT) CS 4501 Spring 23 - Group 11
 
-### LoRaReceiver + GPS: 
-Code to run on Heltec v3 board, publishes GPS and Battery Level data to MQTT
-    Note: Battery level is simulated in ROS
+# Documentation for the motivation of this project:
+[Google Slides - Presentation Deck](https://docs.google.com/presentation/d/1wdEMc5fuZC-7Zq7lYcGgHamXlNqLyQfKI4Hl6TadLBU/edit?usp=sharing)
+- Motivation
+- Technical Design Diagram
+- Demo
+[Google Docs - Motivation and Technical Abstract](https://docs.google.com/document/d/1cnuJvqSw01UkA69GmqIJAPXp1Xdtyoxjug-z762RAZE/edit?usp=sharing)
+- Links to all required resources for project setup
 
-### ROS: 
-Docker Image to run lightweight ROS imagine for proof of concept or IoT --> ROS service calls
+# Overview of Codebase
+## `LoRaGPS Transmitter/LoRaWAN`
+Contains the code for the Heltec Board to read GPS data off a hardware serial then transmit the data over LoRa transmitter
 
-### webserver:
-front end GUI to see metrics and provision downstream commands; backend to publish downstream commands to ROS Robot via MQTT  
+## `SimpleGPS`
+Contains the code only read GPS data via hardware serial on Heltec board
+(Intended to help others bootstrap projects more rapidly)  
 
-Documentation for how to acquire the data. (webhooks recommended)
-https://www.thethingsindustries.com/docs/integrations/
+## `robot`
+INCOMPLETE!!
+Goal was to have ROS code simulate a battery then the Heltec board would make ROS service calls to retrieve this data. Ended up being too difficult to make service call requests on a ROS client (running on Heltec board) from outside the ROS docker container
 
-How to queue a response back to device for (for ACK and Downlink path)?
+This Folder has extensive documentation for setting up the ROS docker container
+`robot/mnt/project_ws` is where battery was simulated
+`robot/mnt/ros2_sandbox_ws` is where ROS2 tutorials were conducted to figure out service calls
+The file `robot/README.md` has more explicit instructions
 
-PIP Packages for the flask server: python-dotenv, Flask-MQTT, Flask-SocketIO
+## `web`
+This folder contains both the front and backend of our web service. In the root there is a flask Server (`web/Server.py`) file that is responsible for the entire backend connection to TTN and battery simulator. The frontend folder (`web/frontend/`)  contains the React project which connects to the Google Maps API and presents the user with the visualization of the data.
