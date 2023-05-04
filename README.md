@@ -14,3 +14,5 @@ Documentation for how to acquire the data. (webhooks recommended)
 https://www.thethingsindustries.com/docs/integrations/
 
 How to queue a response back to device for (for ACK and Downlink path)?
+
+PIP Packages for the flask server: python-dotenv, Flask-MQTT, Flask-SocketIO
