@@ -54,7 +54,8 @@ def messages(client, userdata, message):
     print('Lat: '+str(lat_lng_speed[0])+'\nLng: '+str(lat_lng_speed[1])+'\nSpeed: '+str(lat_lng_speed[2]))
     outgoing = {"lat":lat_lng_speed[0], "lng":lat_lng_speed[1], "speed":lat_lng_speed[2], "battery":battery}
     socketio.emit('ttn_data', outgoing)
-    battery -= 5
+    if(battery > 0):
+        battery -= 20
     # if(lat_lng_speed[3] < 20): #if the battery is lower than 20%
     #     mqtt_client.publish('v3/+/devices/+/down/push', 0x0001)
 
