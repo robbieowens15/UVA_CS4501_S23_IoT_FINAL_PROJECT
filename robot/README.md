@@ -34,6 +34,28 @@ docker run -d \
 --mount type=bind,source="$(pwd)"/mnt,target=/root/mnt \
 ros
 
+*With Port open for service calls*
+#start ROS container
+docker run -d -it -p 9090:9090 \
+-it \
+--name mower \
+--mount type=bind,source="$(pwd)"/mnt,target=/root/mnt \
+ros
+
+to get the local (container) IP address: [from outside container!]
+`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <container_id>`
+
+To get the host (machine) IP address:
+`ifconfig | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}'`
+
+Run these two commands on the host machine (outside docker):
+```bash
+export ROS_MASTER_URI=http://<container_ip_address>:9090
+export ROS_IP=<host_ip_address>
+```
+
+
+
 #lookup name of the ROS container
 #N.B. Must open a NEW TERMINAL SESSION ON HOST MACHINE
 docker ps -l
@@ -91,12 +113,17 @@ https://github.com/uts-magic-lab/rosduct
 # Running the demo
 
 Build the project:
-```
+```bash
 source /opt/ros/humble/setup.bash
 cd /root/mnt/project_ws
-colcon build --packages-select python_parameters
+colcon build --packages-select <PKG_NAME>
 source install/setup.bash
 ```
+
+*To run the service call*
+`ros2 run py_srvcli service`
+if ModuleNotFoundError: No module named 'example_interfaces'
+`apt-get install -y ros-humble-example-interfaces` (maybe: `sudo apt-get update`)
 
 Run the battery count down: *Bug! Functionality to modify the count down is broken*
 `ros2 launch battery_monitor battery_monitor_launch.py battery_time:="10"` 10 is 10s til battery depletes
