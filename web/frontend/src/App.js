@@ -8,7 +8,7 @@ let socket;
 
 function App() {
   const [data, setData] = useState([]);
-  const [markers, setMarkers] = useState([{ lat: 38.032750, lng:  -78.510423, speed: 5.0, battery: 100}]);
+  const [markers, setMarkers] = useState([]);
 
 
   const center = useMemo(() => ({ lat: 38.032750, lng:  -78.510423 }), []);
@@ -58,12 +58,11 @@ function App() {
                       position={{lat:marker.lat, lng:marker.lng}}
                       label={{text: marker.speed+"m/s", fontWeight: "bolder"}}
                       key={i}
-                      >
-
+                    >
                     </MarkerF>
                     <CircleF
                       visible={(i == markers.length-1)}
-                      radius={200}
+                      radius={4*marker.battery}
                       fillColor={"#ff0000"}
                       fillOpacity={0.35}
                       center={{lat:marker.lat, lng:marker.lng}}
